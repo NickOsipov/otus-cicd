@@ -100,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - name: Install dependencies on VM
+      - name: Deploy on VM
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ env.SERVER_HOST }}

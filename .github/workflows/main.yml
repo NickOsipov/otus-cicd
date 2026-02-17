@@ -26,11 +26,17 @@ jobs:
           pip install -r requirements/requirements-lint.txt
 
       - name: Run isort
-        run: isort $PATH_FOR_LINT --check --profile black
+        run: |
+          source .bashrc
+          isort $PATH_FOR_LINT --check --profile black
 
       - name: Run black
-        run: black $PATH_FOR_LINT --check
+        run: |
+          source .bashrc
+          black $PATH_FOR_LINT --check
 
       - name: Run ruff
-        run: ruff check $PATH_FOR_LINT
+        run: |
+          source .bashrc
+          ruff check $PATH_FOR_LINT
 

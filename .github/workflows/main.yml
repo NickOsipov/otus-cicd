@@ -94,14 +94,5 @@ jobs:
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
             cd ${{ env.DEPLOY_PATH }}
-            source .bashrc
-
-            if [[ -d .venv ]]; then
-              echo "Virtual environment already exists. Skipping creation."
-            else
-              python -m venv .venv
-            fi
-
-            source .venv/bin/activate
-            pip install --upgrade pip
-            pip install -r requirements/requirements.txt
+            chmod +x scripts/build.sh
+            bash scripts/build.sh

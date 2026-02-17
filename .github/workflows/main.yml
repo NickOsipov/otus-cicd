@@ -96,3 +96,17 @@ jobs:
             cd ${{ env.DEPLOY_PATH }}
             chmod +x scripts/build.sh
             bash scripts/build.sh
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Install dependencies on VM
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ env.SERVER_HOST }}
+          username: ${{ env.SERVER_USER }}
+          key: ${{ env.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ env.DEPLOY_PATH }}
+            chmod +x scripts/entrypoint.sh
+            bash scripts/entrypoint.sh

@@ -11,3 +11,4 @@ test.yml
 buf
 *.zip
 *.log
+tmp

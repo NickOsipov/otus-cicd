@@ -28,8 +28,15 @@ def ruff(ctx: context.Context, path: str="src tests") -> None:
     ctx.run(f"ruff check {path}", pty=True)
 
 @task
-def precommit(ctx: context.Context) -> None:
+def pre_commit(ctx: context.Context) -> None:
     """
     Run all pre-commit hooks.
     """
     ctx.run("pre-commit run --all-files", pty=True)
+
+@task
+def run_tests(ctx: context.Context) -> None:
+    """
+    Run tests using pytest.
+    """
+    ctx.run("pytest --cov=src tests", pty=True)

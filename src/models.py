@@ -110,7 +110,7 @@ def save_model(
     filename : str, optional
         The name of the file to save the model to, by default "iris_model.joblib"
     """
-    os.mkdir(MODELS_DIR, exist_ok=True)
+    os.makedirs(MODELS_DIR, exist_ok=True)
     filepath = os.path.join(MODELS_DIR, filename)
     joblib.dump(model, filepath)
 

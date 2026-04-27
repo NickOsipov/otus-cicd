@@ -4,6 +4,12 @@ on:
   push:
     branches: [ main ]
 
+env:
+  DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+  DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+  DEPLOY_PATH: "/home/${{ secrets.DEPLOY_USER }}/otus-cicd"
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -59,3 +65,29 @@ jobs:
         run: |
           source .bashrc
           inv run-tests
+  
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Copy files to VM
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ env.DEPLOY_HOST }}
+          username: ${{ env.DEPLOY_USER }}
+          key: ${{ env.SSH_PRIVATE_KEY }}
+          source: ".bashrc,requirements,src,models,config,data,scripts"
+          target: "${{ env.DEPLOY_PATH }}/"
+
+      - name: Build
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ env.DEPLOY_HOST }}
+          username: ${{ env.DEPLOY_USER }}
+          key: ${{ env.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ env.DEPLOY_PATH }}
+            chmod +x scripts/*.sh
+            bash scripts/build.sh

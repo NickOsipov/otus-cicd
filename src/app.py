@@ -1,5 +1,6 @@
 """
-Main application
+Module: app.py
+Description: This module contains the main application code for the Iris Prediction Service.
 """
 
 import pandas as pd

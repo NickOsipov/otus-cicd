@@ -2,3 +2,4 @@ isort==5.13.2
 black==24.8.0
 ruff==0.12.5
 pylint==3.2.6
+pre-commit==3.5.0
